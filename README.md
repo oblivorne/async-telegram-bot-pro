@@ -62,7 +62,6 @@ async-telegram-bot-pro/
 │   ├── pyproject.toml
 │   ├── README.md
 │   ├── requirements.txt
-│   └── КРИТИЧЕСКИЕ ИСПРАВЛЕНИЯ.md
 ├── new/                       # Улучшенный готовый к продакшену код
 │   ├── aws/
 │   ├── events_bot/
@@ -74,16 +73,19 @@ async-telegram-bot-pro/
 │   ├── pyproject.toml
 │   ├── README.md
 │   ├── requirements.txt
-│   └── tests/
 ├── comparison/                # Детальные сравнения
 │   ├── bug-fixes.md
+│   ├── testing.md
 │   ├── performance.md
 │   ├── architecture.md
-│   └── database-optimizations.md
+│   └── deployment.md
 ├── docs/                      # Техническая документация
 │   ├── ARCHITECTURE.md
 │   ├── DEPLOYMENT.md
 │   └── TESTING.md
+│   └── PERFORMANCE_OPTIMIZATION.md
+│   └── BUG_FIXES.md
+│   └── BEFORE_AFTER.md
 ├── .env.example
 ├── .gitignore
 ├── LICENSE
