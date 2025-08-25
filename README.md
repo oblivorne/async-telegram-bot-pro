@@ -10,7 +10,7 @@
 
 ## 🎯 Обзор проекта
 
-Этот репозиторий демонстрирует проект полной переработки системы. Я взял неработающий Telegram-бот, выявил **15+ критических ошибок** и реализовал **значительные улучшения производительности**. Результат — готовый к продакшену асинхронный бот с надежной архитектурой.
+Этот репозиторий демонстрирует проект полной переработки системы. Я взял неработающий Telegram-бот из проекта [wtfwtfwtf](https://github.com/shveps999/wtfwtfwtf), выявил **15+ критических ошибок** и реализовал **значительные улучшения производительности**. Результат — готовый к продакшену асинхронный бот с надежной архитектурой.
 
 ## 📈 Метрики производительности
 
@@ -49,24 +49,34 @@
 
 ```
 async-telegram-bot-pro/
-├── old-version/               # Исходный неработающий код
-│   ├── src/
-│   ├── requirements.txt
-│   └── README.md
-├── new-version/               # Улучшенный готовый к продакшену код
-│   ├── src/
-│   │   ├── handlers/
-│   │   ├── middleware/
-│   │   ├── models/
-│   │   ├── services/
-│   │   └── main.py
-│   ├── tests/
+├── old/                       # Исходный неработающий код
+│   ├── aws/
+│   ├── events_bot/
+│   ├── .env
 │   ├── docker-compose.yml
-│   └── Dockerfile
+│   ├── docker-compose-dev.yaml
+│   ├── Dockerfile
+│   ├── main.py
+│   ├── pyproject.toml
+│   ├── README.md
+│   ├── requirements.txt
+│   └── КРИТИЧЕСКИЕ ИСПРАВЛЕНИЯ.md
+├── new/                       # Улучшенный готовый к продакшену код
+│   ├── aws/
+│   ├── events_bot/
+│   ├── .env
+│   ├── docker-compose.yml
+│   ├── docker-compose-dev.yaml
+│   ├── Dockerfile
+│   ├── main.py
+│   ├── pyproject.toml
+│   ├── README.md
+│   ├── requirements.txt
+│   └── tests/
 ├── comparison/                # Детальные сравнения
 │   ├── bug-fixes.md
-│   ├── performance-improvements.md
-│   ├── architecture-improvements.md
+│   ├── performance.md
+│   ├── architecture.md
 │   └── database-optimizations.md
 ├── docs/                      # Техническая документация
 │   ├── ARCHITECTURE.md
@@ -84,6 +94,7 @@ async-telegram-bot-pro/
 - Python 3.12+
 - PostgreSQL/MySQL/SQLite
 - Telegram Bot Token
+- Docker и Docker Compose
 
 ### Установка
 
@@ -95,7 +106,7 @@ async-telegram-bot-pro/
 
 2. **Установите зависимости**:
    ```bash
-   pip install -r new-version/requirements.txt
+   pip install -r new/requirements.txt
    # или используя uv
    uv sync
    ```
@@ -108,31 +119,32 @@ async-telegram-bot-pro/
 
 4. **Запустите улучшенную версию**:
    ```bash
-   cd new-version
-   python src/main.py
+   cd new
+   python main.py
    ```
 
 5. **Или используйте Docker**:
    ```bash
-   cd new-version
-   docker-compose up -d
+   cd new
+   docker-compose -f docker-compose-dev.yaml build --no-cache
+   docker-compose -f docker-compose-dev.yaml up -d
    ```
 
 ### Сравнение с исходной версией
 
 ```bash
-cd old-version
-python src/main.py  # Это завершится с ошибками - см. comparison/bug-fixes.md для деталей
+cd old
+python main.py  # Это завершится с ошибками - см. comparison/bug-fixes.md для деталей
 ```
 
 ## 📋 Детальный анализ
 
 | Документ | Описание |
 |----------|----------|
-| [🐛 Исправления ошибок](comparison/bug-fixes.md) | Подробный разбор 15+ критических исправлений |
-| [⚡ Производительность](comparison/performance-improvements.md) | Оптимизация запросов и времени отклика |
-| [🏗️ Архитектура](comparison/architecture-improvements.md) | Асинхронный дизайн и схема базы данных |
-| [📊 База данных](comparison/database-optimizations.md) | Оптимизация запросов и индексирование |
+| [🐛 Исправления ошибок](https://github.com/oblivorne/async-telegram-bot-pro/blob/main/comparison/bug-fixes.md) | Подробный разбор 15+ критических исправлений |
+| [⚡ Производительность](https://github.com/oblivorne/async-telegram-bot-pro/blob/main/comparison/performance.md) | Оптимизация запросов и времени отклика |
+| [🏗️ Архитектура](https://github.com/oblivorne/async-telegram-bot-pro/blob/main/comparison/architecture.md) | Асинхронный дизайн и схема базы данных |
+| [📊 База данных](https://github.com/oblivorne/async-telegram-bot-pro/blob/main/comparison/performance.md) | Оптимизация запросов и индексирование |
 
 ## 🛠️ Технологический стек
 
@@ -252,26 +264,30 @@ posts = await db.execute(
 
 ```bash
 # Запуск всех тестов
-pytest new-version/tests/
+pytest new/tests/
 
 # Запуск с покрытием кода
-pytest --cov=src new-version/tests/
+pytest --cov=src new/tests/
 
 # Запуск конкретных категорий тестов
-pytest new-version/tests/unit/
-pytest new-version/tests/integration/
+pytest new/tests/unit/
+pytest new/tests/integration/
 ```
 
 ## 🚀 Развертывание
 
 ### Разработка
 ```bash
-docker-compose -f docker-compose.dev.yml up -d
+cd new
+docker-compose -f docker-compose-dev.yaml build --no-cache
+docker-compose -f docker-compose-dev.yaml up -d
 ```
 
 ### Продакшен
 ```bash
-docker-compose -f docker-compose.prod.yml up -d
+cd new
+docker-compose -f docker-compose.yaml build --no-cache
+docker-compose -f docker-compose.yaml up -d
 ```
 
 ### Переменные окружения
@@ -332,6 +348,7 @@ LOGFIRE_TOKEN=ваш_logfire_токен
 
 ## 🙏 Благодарности
 
+- Исходный проект [wtfwtfwtf](https://github.com/shveps999/wtfwtfwtf) за вдохновение
 - aiogram сообщество за отличный асинхронный фреймворк для Telegram
 - Команда SQLAlchemy за надежную асинхронную ORM
 - Все контрибьюторы проекта
