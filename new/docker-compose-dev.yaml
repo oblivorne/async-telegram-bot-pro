@@ -1,0 +1,56 @@
+# Конфигурация Docker Compose для сервисов бота
+services:
+  redis:
+    image: redis:7-alpine
+    container_name: events_bot_redis
+    ports:
+      - "6380:6379"
+    volumes:
+      - redis_data:/data
+      - ./events_bot:/app/events_bot
+      - uploads_data:/app/uploads
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - events_bot_network
+
+  bot:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: events_bot_dev
+    env_file:
+      - .env  # Загрузка переменных окружения из .env
+    environment:
+      BOT_TOKEN: ${BOT_TOKEN}
+      MODERATION_GROUP_ID: ${MODERATION_GROUP_ID:-}
+      DATABASE_URL: ${DATABASE_URL}
+      LOGFIRE_TOKEN: ${LOGFIRE_TOKEN:-}
+      S3_BUCKET_NAME: ${S3_BUCKET_NAME}
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+      AWS_REGION: ${AWS_REGION}
+      S3_ENDPOINT_URL: ${S3_ENDPOINT_URL}
+      ENVIRONMENT: development
+      DEBUG: "true"
+      TZ: Europe/Moscow
+    depends_on:
+      redis:
+        condition: service_healthy
+    volumes:
+      - uploads_data:/app/uploads
+      - ./requirements.txt:/app/requirements.txt
+    restart: unless-stopped
+    networks:
+      - events_bot_network
+
+networks:
+  events_bot_network:
+    driver: bridge
+
+volumes:
+  redis_data:
+  uploads_data:

@@ -1,0 +1,9 @@
+[dependencies]
+aiogram = ">=3.21.0"
+sqlalchemy = ">=2.0.41"
+asyncpg = ">=0.28.0"  # PostgreSQL için
+aiomysql = ">=0.2.0"  # MySQL için
+aiosqlite = ">=0.17.0"  # SQLite için
+python-dotenv = ">=1.0.1"
+logfire = { version = ">=3.22.0", extras = ["sqlalchemy"] }
+boto3 = ">=1.34.0"  # AWS S3 için
