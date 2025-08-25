@@ -1,4 +1,4 @@
-# Events Bot
+# Events Bot - OLD
 
 Современная асинхронная архитектура Telegram бота, построенная на SQLAlchemy 2.0 и aiogram 3.0.
 
