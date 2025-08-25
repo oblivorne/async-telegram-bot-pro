@@ -89,7 +89,6 @@ async-telegram-bot-pro/
 │   └── PERFORMANCE_OPTIMIZATION.md
 │   └── BUG_FIXES.md
 │   └── BEFORE_AFTER.md
-├── .env.example
 ├── .gitignore
 ├── LICENSE
 └── CHANGELOG.md
